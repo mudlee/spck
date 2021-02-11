@@ -8,3 +8,11 @@ It supports Windows only.
 ## Requirements
 
 - Visual Studio 2019
+
+## Usage
+
+### Install
+
+```bash
+$ git clone --recurse-submodules -j8 git@github.com:mudlee/spck.git
+```
