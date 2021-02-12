@@ -16,3 +16,10 @@ It supports Windows only.
 ```bash
 $ git clone --recurse-submodules -j8 git@github.com:mudlee/spck.git
 ```
+
+### Generate Project Files
+
+```bash
+# On Windows
+$ GenerateProjects.bat
+```
