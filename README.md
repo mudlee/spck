@@ -23,3 +23,17 @@ $ git clone --recurse-submodules -j8 git@github.com:mudlee/spck.git
 # On Windows
 $ GenerateProjects.bat
 ```
+
+### Nearest TODOs
+
+- Static analyzer
+- Cross platform build
+- CI
+- Simple glfw window
+- OpenGL triangle
+- SPIR-V shaders from glsl source
+- Resizable window
+- OpenGL cube
+- Ortho & Perspective camera
+- ECS
+- Instanced rendering
