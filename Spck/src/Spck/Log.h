@@ -2,7 +2,7 @@
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
-#include "Core.h"
+#include "API.h"
 
 namespace Spck 
 {

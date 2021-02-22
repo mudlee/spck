@@ -22,40 +22,40 @@ Supported platforms:
 $ git clone git@github.com:mudlee/spck.git
 ```
 
-### Develop with CLion
+### Notes
+
+#### Develop with CLion
 
 To use CLion, first run the install script, then you can open CLion.
+
+#### Develop on M1 ARM Mac
+
+Replace `arm64` to `armv8` in `~/.conan/profiles/default`
 
 ### Install
 
 ```bash
 # On Linux / OSX
-$ ./install.sh
+$ ./spck.sh -install
+```
+
+### Clean
+
+```bash
+# On Linux / OSX
+$ ./spck.sh -clean
 ```
 
 ### Build
 
 ```bash
 # On Linux / OSX
-$ ./build.sh
+$ ./spck.sh -build
 ```
 
 ### Run
 
 ```bash
 # On Linux / OSX
-$ ./run.sh
+$ ./spck.sh -run
 ```
-
-### Nearest TODOs
-
-- Static analyzer
-- CI
-- Simple glfw window
-- OpenGL triangle
-- SPIR-V shaders from glsl source
-- Resizable window
-- OpenGL cube
-- Ortho & Perspective camera
-- ECS
-- Instanced rendering

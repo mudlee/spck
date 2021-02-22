@@ -1,6 +1,10 @@
 #pragma once
 
-#include "Core.h"
+#include "Spck/Messaging/KeyEvent.h"
+#include "API.h"
+#include "Spck/Log.h"
+#include "Spck/Messaging/Event.h"
+#include "Spck/Messaging/ApplicationEvent.h"
 
 namespace Spck 
 {
@@ -8,8 +12,19 @@ namespace Spck
 	{
 	public:
 		Application();
+
 		virtual ~Application();
-		void run();
+
+		void Run();
+
+    private:
+	    void OnEvent(Event& event);
+        bool OnWindowClosed(WindowClosedEvent& e);
+        bool OnKeyPressed(KeyPressedEvent& e);
+        bool Shutdown();
+
+	private:
+	    bool m_Running = true;
 	};
 
 	Application* CreateApplication();

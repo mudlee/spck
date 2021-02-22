@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 	SPCK_LOG_INFO("Hello. Starting Spck Engine...");
 
 	auto app = Spck::CreateApplication();
-	app->run();
+    app->Run();
 
 	delete app;
 	return 0;
