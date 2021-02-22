@@ -4,3 +4,6 @@
 
 [generators]
   cmake
+
+[options]
+  spdlog:header_only=True

@@ -1,37 +1,46 @@
 # Spck Engine
 
-This project is intented to be a C++ OpenGL (and maybe later Vulkan) rendering engine,
+This project is intended to be a C++ OpenGL (and maybe later Vulkan) rendering engine,
 that servers my C++ and computer graphics learning.
 
 Supported platforms:
- - Windows (premake & cmake)
- - Linux (cmake)
- - OS X (cmake)
+ - Windows
+ - Linux
+ - OSX
+
+## Requirements
+
+- [CMake](https://cmake.org/)
+- [Conan](https://conan.io/)
+- [Ninja](https://ninja-build.org/)
 
 ## Usage
 
-### CMake & Conan
+### Get the Code
 
-Make sure you have cmake and conan installed.
-
-```
-$ mkdir build && cd build
-$ conan install ..&& cmake ..
-$ cmake --build .
+```bash
+$ git clone git@github.com:mudlee/spck.git
 ```
 
 ### Install
 
-
 ```bash
-$ git clone --recurse-submodules -j8 git@github.com:mudlee/spck.git
+# On Linux / OSX
+$ ./install.sh
 ```
 
-### Generate Project Files
+### Build
 
 ```bash
-# On Windows
-$ GenerateProjects.bat
+# On Linux / OSX
+$ ./build.sh
+```
+
+### Run
+
+```bash
+# On Linux / OSX
+$ ./run.sh
 ```
 
 ### Nearest TODOs

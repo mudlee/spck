@@ -8,5 +8,4 @@
 	#endif
 #else
 	#define SPCK_API
-	// #error Currently only Windows is supported.
 #endif

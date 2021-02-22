@@ -1,5 +1,4 @@
 #pragma once
-#include <stdio.h>
 
 extern Spck::Application* Spck::CreateApplication();
 

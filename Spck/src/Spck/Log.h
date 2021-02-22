@@ -11,7 +11,7 @@ namespace Spck
 	public:
 		static void Init();
 
-		inline static std::shared_ptr<spdlog::logger>& GetLogger()
+		static std::shared_ptr<spdlog::logger>& GetLogger()
 		{
 			return s_Logger;
 		}
