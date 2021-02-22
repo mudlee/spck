@@ -22,6 +22,10 @@ Supported platforms:
 $ git clone git@github.com:mudlee/spck.git
 ```
 
+### Develop with CLion
+
+To use CLion, first run the install script, then you can open CLion.
+
 ### Install
 
 ```bash
@@ -46,7 +50,6 @@ $ ./run.sh
 ### Nearest TODOs
 
 - Static analyzer
-- Cross platform build
 - CI
 - Simple glfw window
 - OpenGL triangle
