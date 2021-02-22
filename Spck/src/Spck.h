@@ -1,5 +1,5 @@
 #pragma once
 
-#include "spck/Application.h"
-#include "spck/Log.h"
-#include "spck/EntryPoint.h"
+#include "Spck/Application.h"
+#include "Spck/Log.h"
+#include "Spck/EntryPoint.h"
