@@ -7,5 +7,6 @@
 		#define SPCK_API __declspec(dllimport)
 	#endif
 #else
-	#error Currently only Windows is supported.
+	#define SPCK_API
+	// #error Currently only Windows is supported.
 #endif
