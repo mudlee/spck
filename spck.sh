@@ -9,13 +9,13 @@ while test $# -gt 0; do
   -install)
     shift
     mkdir -p Build && cd Build
-    conan install .. --build=fmt --build=spdlog&& cmake .. -G Ninja
+    conan install .. --build=fmt --build=spdlog --build=glad --build=glfw && cmake .. -G Ninja
     ninja
     # CLion Support
     cd ..
     mkdir -p cmake-build-debug
     cd cmake-build-debug
-    conan install .. --build=fmt --build=spdlog
+    conan install .. --build=fmt --build=spdlog --build=glad --build=glfw 
     ;;
   -build)
     shift
