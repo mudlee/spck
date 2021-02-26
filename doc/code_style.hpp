@@ -27,14 +27,14 @@ class another_base_class {};
 //  - snake_case: stick to STL or Boost naming conventions (e.g. my_class,
 //  my_member_function, my_field)
 //  - no hungarian notation
-//  - fields are
+//  - fields are snake_case
 //  - '_' before pirvate data members (only use it when really needed)
 class sample_class : public some_base_class, public another_base_class {
     // no indentation before visibility specifiers
 public:
     // constructor
     sample_class()
-        : field("iniital_value"),
+        : field("inital_value"),
           field2("foobar") // use initializer list wherever possible
     {}
 
