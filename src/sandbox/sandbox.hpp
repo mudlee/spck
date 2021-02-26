@@ -1,12 +1,10 @@
 #pragma once
 
-#include <iostream>
-
 #include <spck/spck.hpp>
 
 class sandbox : public spck::application {
 public:
-    sandbox() = default;
+    using spck::application::application;
 
-    ~sandbox() = default;
+    ~sandbox() override = default;
 };

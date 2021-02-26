@@ -19,13 +19,15 @@ window::window() : handle(nullptr) {
     glfwDefaultWindowHints();
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-    // OpenGL specific stuff. Will be moved to its place when we have a clear renderer structure
+    // TODO: OpenGL specific stuff. Will be moved to its place when we have a clear renderer structure
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-    // OpenGL specific stuff. Will be moved to its place when we have a clear renderer structure
+    // TODO: OpenGL specific stuff. Will be moved to its place when we have a clear renderer structure
 
     handle = glfwCreateWindow(800, 600, "SPCK", nullptr, nullptr);
     if (handle == nullptr) {
@@ -35,6 +37,13 @@ window::window() : handle(nullptr) {
     }
 
     glfwMakeContextCurrent(handle);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        SPCK_LOG_ERROR("Failed to initialize GLAD");
+        exit(EXIT_FAILURE);
+    }
+
     SPCK_LOG_DEBUG("Window created");
 
     glfwSetWindowUserPointer(handle, &data);
@@ -65,5 +74,9 @@ window::~window() {
     }
 }
 
-void window::frame_end() { glfwPollEvents(); }
+void window::frame_end() {
+    glfwPollEvents();
+    glfwSwapBuffers(handle);
+}
+
 } // namespace spck
