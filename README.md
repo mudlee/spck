@@ -59,3 +59,10 @@ $ ./spck.sh -build
 # On Linux / OSX
 $ ./spck.sh -run
 ```
+
+### QA
+
+```bash
+# Run tests
+$ ./spck.sh -test
+```

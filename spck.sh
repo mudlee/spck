@@ -27,6 +27,12 @@ while test $# -gt 0; do
     shift
     ./build/bin/sandbox
     ;;
+  -test)
+    shift
+    cd build
+    ctest
+    cd ..
+    ;;
   *)
     echo "$1 is an invalid flag. Use [-install|-clean|-build|-run]"
     return 1;
