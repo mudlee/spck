@@ -4,11 +4,11 @@ while test $# -gt 0; do
   case "$1" in
   -clean)
     shift
-    rm -rf ./Build
+    rm -rf ./build
     ;;
   -install)
     shift
-    mkdir -p Build && cd Build
+    mkdir -p build && cd build
     conan install .. --build=fmt --build=spdlog --build=glad --build=glfw && cmake .. -G Ninja
     ninja
     # CLion Support
@@ -19,13 +19,13 @@ while test $# -gt 0; do
     ;;
   -build)
     shift
-    cd Build
+    cd build
     ninja
     cd ..
     ;;
   -run)
     shift
-    ./Build/bin/Sandbox
+    ./build/bin/sandbox
     ;;
   *)
     echo "$1 is an invalid flag. Use [-install|-clean|-build|-run]"
