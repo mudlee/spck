@@ -14,6 +14,5 @@ else()
   message(WARNING "you can initialize you dependancies with 'conan install ..'")
 endif()
 
-add_subdirectory(Spck)
-add_subdirectory(Sandbox)
+add_subdirectory(src)
 
