@@ -9,8 +9,9 @@ namespace spck {
 
 void application::run() {
     // TODO: use properties to setup global variables like render backend
+    auto context = std::make_shared<renderer::context>();
 
-    window win;
+    window win(context);
     win.set_event_callback([this](auto &&PH1) { on_event(std::forward<decltype(PH1)>(PH1)); });
 
     // TODO: move this to sandbox, when the architecture is ready
@@ -34,13 +35,14 @@ void application::run() {
     };
 
     // TODO: move this logic out when the architecture is ready
+
     auto shader = renderer::shader(vertex_source, fragment_source);
     auto attrib = vertex_layout_attribute{
         3,
         GL_FLOAT, // TODO make it renderer backend agnostic
         GL_FALSE,
         3 * sizeof(float),
-        (void*)nullptr
+        nullptr
     };
 
     auto attribs = std::vector<vertex_layout_attribute>{attrib};
@@ -53,11 +55,12 @@ void application::run() {
 
     while (running) {
         // TODO: move opengl logic to a graphicscontext
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        context->clear(1.0f, 1.0f, 1.0f, 1.0f);
         shader.start();
         vao.bind();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        context->swap_buffers(1.0f); // TODO calculate frametime
+
         vao.unbind();
         shader.stop();
         win.frame_end();

@@ -2,19 +2,21 @@
 
 #include <functional>
 #include <string>
+#include <utility>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include <spck/api.hpp>
 #include <spck/messaging/event.hpp>
+#include <spck/renderer/graphics_context.h>
 
 namespace spck {
 using event_callback_fn = std::function<void(event &)>;
 
 class SPCK_API window {
 public:
-    window();
+    explicit window(std::shared_ptr<graphics_context> context);
 
     virtual ~window();
 
@@ -27,7 +29,8 @@ private:
         event_callback_fn event_callback;
     };
 
-    GLFWwindow *handle;
+    GLFWwindow *handle{};
     window_data data;
+    std::shared_ptr<graphics_context> context;
 };
 } // namespace spck

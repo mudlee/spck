@@ -2,9 +2,10 @@
 #include <spck/log.hpp>
 #include <spck/messaging/application_event.hpp>
 #include <spck/messaging/key_event.hpp>
+#include <spck/renderer/renderer.hpp>
 
 namespace spck {
-window::window() : handle(nullptr) {
+window::window(std::shared_ptr<graphics_context> context) : handle(nullptr), context(context) {
     SPCK_LOG_DEBUG("Creating m_Window...");
 
     if (!glfwInit()) {
@@ -19,15 +20,7 @@ window::window() : handle(nullptr) {
     glfwDefaultWindowHints();
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-    // TODO: OpenGL specific stuff. Will be moved to its place when we have a clear renderer structure
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-    // TODO: OpenGL specific stuff. Will be moved to its place when we have a clear renderer structure
+    context->init();
 
     handle = glfwCreateWindow(800, 600, "SPCK", nullptr, nullptr);
     if (handle == nullptr) {
@@ -35,6 +28,8 @@ window::window() : handle(nullptr) {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
+
+    // TODO: context->window_created();
 
     glfwMakeContextCurrent(handle);
 
