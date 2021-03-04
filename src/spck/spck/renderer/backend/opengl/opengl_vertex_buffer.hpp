@@ -26,11 +26,11 @@ public:
         glDeleteBuffers(1, &id);
     };
 
-    void bind() override {
+    void bind() const override {
         glBindBuffer(GL_ARRAY_BUFFER, id);
     };
 
-    void unbind() override {
+    void unbind() const override {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     };
 };

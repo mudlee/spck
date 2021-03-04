@@ -4,7 +4,7 @@
 
 #include <spck/api.hpp>
 #include <spck/messaging/event.hpp>
-#include <spck/renderer/graphics_context.h>
+#include <spck/renderer/graphics_context.hpp>
 
 namespace spck {
 using event_callback_fn = std::function<void(event &)>;

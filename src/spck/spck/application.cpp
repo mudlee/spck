@@ -26,9 +26,14 @@ void application::run() {
                                   "    FragColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);\n"
                                   "}\0";
     const float vertices[] = {
+        -0.5f,  0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
+        0.5f,  0.5f, 0.0f,
+    };
+
+    const int indices[] = {
+        0, 1, 3, 3, 1, 2,
     };
 
     // TODO: move this logic out when the architecture is ready
@@ -45,14 +50,19 @@ void application::run() {
     auto layout = vertex_buffer_layout{attribs};
 
     auto vao = renderer::vertex_array();
-    auto vbo = renderer::vertex_buffer(vertices,sizeof(vertices), layout);
+    auto vbo = renderer::vertex_buffer(vertices, sizeof(vertices), layout);
+    auto ebo = renderer::index_buffer(indices, sizeof(indices));
+
     vao.add_vbo(vbo);
-    vbo.unbind();
+    vao.set_ebo(ebo);
 
     while (running) {
         context->clear(1.0f, 1.0f, 1.0f, 1.0f);
         shader.start();
         vao.bind();
+
+        // TODO: move this whole rendering logic to a commandqueue/renderer
+        renderer::command::draw_indexed(vao);
 
         win.frame_end();
         vao.unbind();

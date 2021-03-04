@@ -17,15 +17,16 @@ public:
         glDeleteVertexArrays(1, &id);
     };
 
-    void bind() override {
+    void bind() const override {
         glBindVertexArray(id);
+        glEnableVertexAttribArray(0);
     }
 
-    void unbind() override {
+    void unbind() const override {
         glBindVertexArray(0);
     }
 
-    void add_vbo(vertex_buffer &buffer) override {
+    void add_vbo(vertex_buffer &buffer) const override {
         bind();
         buffer.bind();
 
@@ -41,11 +42,19 @@ public:
             );
         }
 
+        unbind();
+        buffer.unbind();
         SPCK_LOG_DEBUG("OpenGL VBO [{0}] added to VAO [{1}]", buffer.id, id);
     }
 
-private:
-
+    void set_ebo(index_buffer &buffer) override {
+        ebo_size = buffer.size;
+        bind();
+        buffer.bind();
+        unbind();
+        buffer.unbind();
+        SPCK_LOG_DEBUG("OpenGL EBO [{0}] added to VAO [{1}]", buffer.id, id);
+    }
 };
 
 }

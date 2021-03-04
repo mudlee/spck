@@ -14,8 +14,8 @@ public:
     shader(const shader &) = delete;
     shader &operator=(const shader &) = delete;
 
-    virtual void start() = 0;
-    virtual void stop() = 0;
+    virtual void start() const = 0;
+    virtual void stop() const = 0;
 };
 
 }

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <spck/renderer/shader.hpp>
 #include <glad/glad.h>
+
+#include <spck/renderer/shader.hpp>
 
 namespace spck {
 

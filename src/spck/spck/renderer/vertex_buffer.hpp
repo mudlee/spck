@@ -11,8 +11,8 @@ public:
     vertex_buffer(const vertex_buffer &) = delete;
     vertex_buffer &operator=(const vertex_buffer &) = delete;
 
-    virtual void bind() = 0;
-    virtual void unbind() = 0;
+    virtual void bind() const = 0;
+    virtual void unbind() const = 0;
 
 public:
     GLuint id{};

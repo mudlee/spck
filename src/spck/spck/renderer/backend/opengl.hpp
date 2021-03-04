@@ -1,6 +1,8 @@
 #pragma once
 
+#include <spck/renderer/backend/opengl/opengl_command.hpp>
 #include <spck/renderer/backend/opengl/opengl_context.hpp>
+#include <spck/renderer/backend/opengl/opengl_index_buffer.hpp>
 #include <spck/renderer/backend/opengl/opengl_shader.hpp>
 #include <spck/renderer/backend/opengl/opengl_vertex_array.hpp>
 #include <spck/renderer/backend/opengl/opengl_vertex_buffer.hpp>
@@ -13,6 +15,8 @@ public:
     using shader = opengl_shader;
     using vertex_array = opengl_vertex_array;
     using vertex_buffer = opengl_vertex_buffer;
+    using index_buffer = opengl_index_buffer;
+    using command = opengl_command;
 };
 
 }
