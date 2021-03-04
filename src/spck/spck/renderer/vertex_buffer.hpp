@@ -1,7 +1,6 @@
 #pragma once
 
 #include <spck/renderer/vertex_buffer_layout.hpp>
-#include <glad/glad.h>
 
 namespace spck {
 

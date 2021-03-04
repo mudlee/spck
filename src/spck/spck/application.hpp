@@ -5,7 +5,6 @@
 #include <spck/messaging/application_event.hpp>
 #include <spck/messaging/event.hpp>
 #include <spck/messaging/key_event.hpp>
-#include <spck/renderer/renderer.hpp>
 
 namespace spck {
 

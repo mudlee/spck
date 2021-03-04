@@ -1,7 +1,4 @@
 #include <spck/application.hpp>
-#include <spck/messaging/application_event.hpp>
-#include <spck/messaging/event.hpp>
-#include <spck/messaging/key_event.hpp>
 #include <spck/renderer/renderer.hpp>
 #include <spck/window/window.hpp>
 
@@ -9,7 +6,7 @@ namespace spck {
 
 void application::run() {
     // TODO: use properties to setup global variables like render backend
-    auto context = std::make_shared<renderer::context>();
+    const auto context = std::make_shared<renderer::context>();
 
     window win(context);
     win.set_event_callback([this](auto &&PH1) { on_event(std::forward<decltype(PH1)>(PH1)); });
@@ -35,12 +32,11 @@ void application::run() {
     };
 
     // TODO: move this logic out when the architecture is ready
-
     auto shader = renderer::shader(vertex_source, fragment_source);
     auto attrib = vertex_layout_attribute{
         3,
-        GL_FLOAT, // TODO make it renderer backend agnostic
-        GL_FALSE,
+        shader::data_type::FLOAT,
+        false,
         3 * sizeof(float),
         nullptr
     };
@@ -54,16 +50,13 @@ void application::run() {
     vbo.unbind();
 
     while (running) {
-        // TODO: move opengl logic to a graphicscontext
         context->clear(1.0f, 1.0f, 1.0f, 1.0f);
         shader.start();
         vao.bind();
 
-        context->swap_buffers(1.0f); // TODO calculate frametime
-
+        win.frame_end();
         vao.unbind();
         shader.stop();
-        win.frame_end();
     }
 }
 

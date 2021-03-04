@@ -1,8 +1,7 @@
 #pragma once
 
+#include <glad/glad.h>
 #include <spck/renderer/graphics_context.h>
-
-#include <GLFW/glfw3.h>
 
 namespace spck {
 
@@ -19,8 +18,14 @@ public:
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
     }
 
-    void window_created() override {
-        // TODO
+    void window_created(GLFWwindow* handle) override {
+        glfwMakeContextCurrent(handle);
+
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            SPCK_LOG_ERROR("Failed to initialize GLAD");
+            exit(EXIT_FAILURE);
+        }
     }
 
     void clear(float r, float g, float b, float a) override {
@@ -28,9 +33,10 @@ public:
         glClear(GL_COLOR_BUFFER_BIT); // TODO has to be provided
     }
 
-    void swap_buffers(float frameTime) override {
+    void swap_buffers(float frameTime, GLFWwindow* handle) override {
         // TODO: calculate parameters from a command queue
         glDrawArrays(GL_TRIANGLES, 0, 3);
+        glfwSwapBuffers(handle);
     }
 
     void window_resized(int new_width, int new_height) override {

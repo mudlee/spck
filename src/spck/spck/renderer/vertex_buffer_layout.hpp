@@ -1,14 +1,14 @@
 #pragma once
 
-#include <glad/glad.h>
+#include <spck/renderer/shader.hpp>
 
 namespace spck {
 
 struct vertex_layout_attribute {
-    GLint data_size;
-    GLenum data_type;
-    GLboolean normalized;
-    GLsizei stride;
+    uint32_t data_size;
+    shader::data_type data_type;
+    bool normalized;
+    int32_t stride;
     const void* offset;
 };
 

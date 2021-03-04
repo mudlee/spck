@@ -2,6 +2,7 @@
 
 #include <spck/log.hpp>
 #include <spck/renderer/vertex_array.hpp>
+#include <spck/renderer/backend/opengl/type_converter.hpp>
 
 namespace spck {
 
@@ -33,7 +34,7 @@ public:
             glVertexAttribPointer(
                 i,
                 buffer.layout.attributes.at(i).data_size,
-                buffer.layout.attributes.at(i).data_type,
+                type_converter::shader_data_type_to_gl_enum(buffer.layout.attributes.at(i).data_type),
                 buffer.layout.attributes.at(i).normalized,
                 buffer.layout.attributes.at(i).stride,
                 buffer.layout.attributes.at(i).offset
@@ -42,6 +43,9 @@ public:
 
         SPCK_LOG_DEBUG("OpenGL VBO [{0}] added to VAO [{1}]", buffer.id, id);
     }
+
+private:
+
 };
 
 }

@@ -1,11 +1,6 @@
 #pragma once
 
 #include <functional>
-#include <string>
-#include <utility>
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 #include <spck/api.hpp>
 #include <spck/messaging/event.hpp>
@@ -16,9 +11,10 @@ using event_callback_fn = std::function<void(event &)>;
 
 class SPCK_API window {
 public:
-    explicit window(std::shared_ptr<graphics_context> context);
-
+    explicit window(const std::shared_ptr<graphics_context>& context);
     virtual ~window();
+    window(const window &) = delete;
+    window &operator=(const window &) = delete;
 
     void set_event_callback(const event_callback_fn &callback) { data.event_callback = callback; }
 
