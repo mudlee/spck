@@ -2,17 +2,20 @@
 
 #include <spck/api.hpp>
 #include <spck/log.hpp>
+#include <spck/utils.hpp>
 #include <spck/messaging/application_event.hpp>
 #include <spck/messaging/event.hpp>
 #include <spck/messaging/key_event.hpp>
+#include <spck/renderer/renderer.hpp>
+#include <spck/window/window.hpp>
 
 namespace spck {
 
 class SPCK_API application {
 public:
-    application() = default;
-
+    application();
     virtual ~application() = default;
+    DELETE_COPY_METHODS(application)
 
     void run();
 
@@ -24,6 +27,9 @@ private:
 
 private:
     bool running = true;
+    std::unique_ptr<window> win{};
+    std::shared_ptr<renderer::context> context{};
+    void flush();
 };
 
 }

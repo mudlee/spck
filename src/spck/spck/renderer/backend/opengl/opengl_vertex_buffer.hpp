@@ -1,21 +1,19 @@
 #pragma once
 
 #include <spck/log.hpp>
+#include <spck/renderer/backend/opengl/vendor.hpp>
 #include <spck/renderer/vertex_buffer_layout.hpp>
 #include <spck/renderer/vertex_buffer.hpp>
-
-#include <glad/glad.h>
 
 namespace spck {
 
 class opengl_vertex_buffer : public vertex_buffer {
 public:
     opengl_vertex_buffer(
-        const float* vertices,
+        const float *vertices,
         uint32_t size,
-        vertex_buffer_layout& layout2
-    ) {
-        layout = layout2; // TODO: pleeeease solve it somehow :)
+        const std::shared_ptr<vertex_buffer_layout> &layout
+    ): vertex_buffer(vertices, size, layout) {
         glGenBuffers(1, &id);
         glBindBuffer(GL_ARRAY_BUFFER, id);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);

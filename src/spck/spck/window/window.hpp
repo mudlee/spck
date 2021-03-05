@@ -3,6 +3,7 @@
 #include <functional>
 
 #include <spck/api.hpp>
+#include <spck/utils.hpp>
 #include <spck/messaging/event.hpp>
 #include <spck/renderer/graphics_context.hpp>
 
@@ -13,8 +14,7 @@ class SPCK_API window {
 public:
     explicit window(const std::shared_ptr<graphics_context>& context);
     virtual ~window();
-    window(const window &) = delete;
-    window &operator=(const window &) = delete;
+    DELETE_COPY_METHODS(window)
 
     void set_event_callback(const event_callback_fn &callback) { data.event_callback = callback; }
 

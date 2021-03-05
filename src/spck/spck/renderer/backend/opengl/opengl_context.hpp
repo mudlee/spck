@@ -1,7 +1,6 @@
 #pragma once
 
-#include <glad/glad.h>
-
+#include <spck/renderer/backend/opengl/vendor.hpp>
 #include <spck/renderer/graphics_context.hpp>
 
 namespace spck {

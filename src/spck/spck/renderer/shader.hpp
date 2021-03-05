@@ -1,5 +1,7 @@
 #pragma once
 
+#include <spck/utils.hpp>
+
 namespace spck {
 
 class shader {
@@ -11,8 +13,7 @@ public:
 public:
     shader() = default;
     ~shader() = default;
-    shader(const shader &) = delete;
-    shader &operator=(const shader &) = delete;
+    DELETE_COPY_METHODS(shader)
 
     virtual void start() const = 0;
     virtual void stop() const = 0;

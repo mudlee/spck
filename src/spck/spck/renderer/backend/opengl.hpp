@@ -1,5 +1,6 @@
 #pragma once
 
+#include <spck/renderer/command.hpp>
 #include <spck/renderer/backend/opengl/opengl_command.hpp>
 #include <spck/renderer/backend/opengl/opengl_context.hpp>
 #include <spck/renderer/backend/opengl/opengl_index_buffer.hpp>
@@ -16,7 +17,8 @@ public:
     using vertex_array = opengl_vertex_array;
     using vertex_buffer = opengl_vertex_buffer;
     using index_buffer = opengl_index_buffer;
-    using command = opengl_command;
+    using draw_indexed_command = opengl_draw_indexed_command;
+    using command_queue = standard_command_queue;
 };
 
 }

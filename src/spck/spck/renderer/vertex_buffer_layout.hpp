@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utility>
 #include <spck/renderer/shader.hpp>
 
 namespace spck {
@@ -14,6 +15,8 @@ struct vertex_layout_attribute {
 
 struct vertex_buffer_layout {
     std::vector<vertex_layout_attribute> attributes;
+
+    explicit vertex_buffer_layout(std::vector<vertex_layout_attribute>&& attributes) : attributes(std::move(attributes)) {}
 };
 
 }

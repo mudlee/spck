@@ -4,13 +4,16 @@
 
 namespace spck {
 
-void application::run() {
+application::application() {
+    SPCK_LOG_DEBUG("Creating application");
     // TODO: use properties to setup global variables like render backend
-    const auto context = std::make_shared<renderer::context>();
+    context = std::make_shared<renderer::context>();
+    win = std::make_unique<window>(context);
+    win->set_event_callback([this](auto &&PH1) { on_event(std::forward<decltype(PH1)>(PH1)); });
+}
 
-    window win(context);
-    win.set_event_callback([this](auto &&PH1) { on_event(std::forward<decltype(PH1)>(PH1)); });
-
+void application::run() {
+    SPCK_LOG_DEBUG("Running application");
     // TODO: move this to sandbox, when the architecture is ready
     const char* vertex_source = "#version 330 core\n"
                                      "layout (location = 0) in vec3 aPos;\n"
@@ -25,47 +28,16 @@ void application::run() {
                                   "{\n"
                                   "    FragColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);\n"
                                   "}\0";
-    const float vertices[] = {
-        -0.5f,  0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.5f,  0.5f, 0.0f,
-    };
 
-    const int indices[] = {
-        0, 1, 3, 3, 1, 2,
-    };
-
-    // TODO: move this logic out when the architecture is ready
     auto shader = renderer::shader(vertex_source, fragment_source);
-    auto attrib = vertex_layout_attribute{
-        3,
-        shader::data_type::FLOAT,
-        false,
-        3 * sizeof(float),
-        nullptr
-    };
-
-    auto attribs = std::vector<vertex_layout_attribute>{attrib};
-    auto layout = vertex_buffer_layout{attribs};
-
-    auto vao = renderer::vertex_array();
-    auto vbo = renderer::vertex_buffer(vertices, sizeof(vertices), layout);
-    auto ebo = renderer::index_buffer(indices, sizeof(indices));
-
-    vao.add_vbo(vbo);
-    vao.set_ebo(ebo);
 
     while (running) {
         context->clear(1.0f, 1.0f, 1.0f, 1.0f);
         shader.start();
-        vao.bind();
 
-        // TODO: move this whole rendering logic to a commandqueue/renderer
-        renderer::command::draw_indexed(vao);
+        renderer::command_queue::flush();
 
-        win.frame_end();
-        vao.unbind();
+        win->frame_end();
         shader.stop();
     }
 }

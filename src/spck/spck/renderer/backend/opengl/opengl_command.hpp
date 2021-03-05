@@ -1,16 +1,20 @@
 #pragma once
 
-#include <glad/glad.h>
-
+#include <spck/renderer/backend/opengl/vendor.hpp>
 #include <spck/renderer/command.hpp>
 
 namespace spck {
 
-class opengl_command : public command {
+class opengl_draw_indexed_command : public draw_indexed_command {
 public:
-    static void draw_indexed(const vertex_array& vao) {
-        glDrawElements(GL_TRIANGLES, vao.get_ebo_size(), GL_UNSIGNED_INT, nullptr);
-    };
+    explicit opengl_draw_indexed_command(const std::shared_ptr<vertex_array> &vao) : draw_indexed_command(vao) {
+    }
+
+    void render() override {
+        vao->bind();
+        glDrawElements(GL_TRIANGLES, vao->get_ebo_size(), GL_UNSIGNED_INT, nullptr);
+        vao->unbind();
+    }
 };
 
 }

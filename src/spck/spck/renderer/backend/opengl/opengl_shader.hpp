@@ -1,9 +1,9 @@
 #pragma once
 
+#include <spck/renderer/backend/opengl/vendor.hpp>
 #include <spck/renderer/shader.hpp>
 #include <spck/log.hpp>
 
-#include <glad/glad.h>
 
 namespace spck {
 

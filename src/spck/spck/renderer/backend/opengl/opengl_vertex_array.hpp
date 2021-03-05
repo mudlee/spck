@@ -3,6 +3,7 @@
 #include <spck/log.hpp>
 #include <spck/renderer/vertex_array.hpp>
 #include <spck/renderer/backend/opengl/type_converter.hpp>
+#include <spck/renderer/backend/opengl/vendor.hpp>
 
 namespace spck {
 
@@ -26,19 +27,19 @@ public:
         glBindVertexArray(0);
     }
 
-    void add_vbo(vertex_buffer &buffer) const override {
+    void add_vbo(const vertex_buffer &buffer) const override {
         bind();
         buffer.bind();
 
-        for(int i=0;i<buffer.layout.attributes.size();i++){
+        for(int i=0;i<buffer.layout->attributes.size();i++){
             glEnableVertexAttribArray(i);
             glVertexAttribPointer(
                 i,
-                buffer.layout.attributes.at(i).data_size,
-                type_converter::shader_data_type_to_gl_enum(buffer.layout.attributes.at(i).data_type),
-                buffer.layout.attributes.at(i).normalized,
-                buffer.layout.attributes.at(i).stride,
-                buffer.layout.attributes.at(i).offset
+                buffer.layout->attributes.at(i).data_size,
+                type_converter::shader_data_type_to_gl_enum(buffer.layout->attributes.at(i).data_type),
+                buffer.layout->attributes.at(i).normalized,
+                buffer.layout->attributes.at(i).stride,
+                buffer.layout->attributes.at(i).offset
             );
         }
 
@@ -47,7 +48,7 @@ public:
         SPCK_LOG_DEBUG("OpenGL VBO [{0}] added to VAO [{1}]", buffer.id, id);
     }
 
-    void set_ebo(index_buffer &buffer) override {
+    void set_ebo(const index_buffer &buffer) override {
         ebo_size = buffer.size;
         bind();
         buffer.bind();

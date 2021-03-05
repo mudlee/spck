@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
+#include <spck/utils.hpp>
 
 namespace spck {
 
@@ -8,8 +9,7 @@ class graphics_context {
 public:
     graphics_context() = default;
     ~graphics_context() = default;
-    graphics_context(const graphics_context &) = delete;
-    graphics_context &operator=(const graphics_context &) = delete;
+    DELETE_COPY_METHODS(graphics_context)
 
     virtual void init() const = 0;
     virtual void window_created(GLFWwindow* handle) const = 0;
