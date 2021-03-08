@@ -1,6 +1,6 @@
 #pragma once
 
-#include <utility>
+#include <memory>
 #include <spck/utils.hpp>
 #include <spck/renderer/vertex_buffer_layout.hpp>
 

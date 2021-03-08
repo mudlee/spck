@@ -28,16 +28,23 @@ public:
 
         auto attribs = std::vector<spck::vertex_layout_attribute>{attrib};
         const auto layout = std::make_shared<spck::vertex_buffer_layout>(std::move(attribs));
-        auto vao = std::make_shared<spck::renderer::vertex_array>();
+        vao = std::make_shared<spck::renderer::vertex_array>();
         auto vbo = spck::renderer::vertex_buffer(vertices, sizeof(vertices), layout);
         auto ebo = spck::renderer::index_buffer(indices, sizeof(indices));
 
         vao->add_vbo(vbo);
         vao->set_ebo(ebo);
 
+
+    }
+
+    ~sandbox() override = default;
+
+    void update() override {
         auto command = std::make_shared<spck::renderer::draw_indexed_command>(vao);
         spck::renderer::command_queue::submit(command);
     }
 
-    ~sandbox() override = default;
+private:
+    std::shared_ptr<spck::renderer::vertex_array> vao;
 };

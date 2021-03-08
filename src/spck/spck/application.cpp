@@ -32,6 +32,7 @@ void application::run() {
     auto shader = renderer::shader(vertex_source, fragment_source);
 
     while (running) {
+        update();
         context->clear(1.0f, 1.0f, 1.0f, 1.0f);
         shader.start();
 

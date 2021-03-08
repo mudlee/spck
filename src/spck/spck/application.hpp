@@ -18,6 +18,7 @@ public:
     DELETE_COPY_METHODS(application)
 
     void run();
+    virtual void update() = 0;
 
 private:
     void on_event(event &event);
@@ -29,7 +30,6 @@ private:
     bool running = true;
     std::unique_ptr<window> win{};
     std::shared_ptr<renderer::context> context{};
-    void flush();
 };
 
 }

@@ -4,7 +4,6 @@
 #include <spck/renderer/vertex_array.hpp>
 
 #include <queue>
-#include <utility>
 
 namespace spck {
 
@@ -35,13 +34,13 @@ public:
     DELETE_COPY_METHODS(standard_command_queue)
 
     static void submit(const std::shared_ptr<command>& command) {
-        standard_command_queue::commands.push(command);
+        commands.push(command);
     };
 
     static void flush() {
         while(!commands.empty()) {
             commands.front()->render();
-            //commands.pop(); TODO: don't pop until we can submit in every frame from sandbox
+            commands.pop();
         }
     }
 
