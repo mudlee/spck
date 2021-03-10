@@ -18,7 +18,6 @@ public:
     using vertex_buffer = opengl_vertex_buffer;
     using index_buffer = opengl_index_buffer;
     using draw_indexed_command = opengl_draw_indexed_command;
-    using command_queue = standard_command_queue;
 };
 
 }

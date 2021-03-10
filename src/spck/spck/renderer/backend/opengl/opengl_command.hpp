@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utility>
 #include <spck/renderer/backend/opengl/vendor.hpp>
 #include <spck/renderer/command.hpp>
 
@@ -7,7 +8,7 @@ namespace spck {
 
 class opengl_draw_indexed_command : public draw_indexed_command {
 public:
-    explicit opengl_draw_indexed_command(const std::shared_ptr<vertex_array> &vao) : draw_indexed_command(vao) {
+    explicit opengl_draw_indexed_command(std::shared_ptr<vertex_array> vao) : draw_indexed_command(std::move(vao)) {
     }
 
     void render() override {

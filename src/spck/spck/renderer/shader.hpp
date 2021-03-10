@@ -1,10 +1,10 @@
 #pragma once
 
-#include <spck/utils.hpp>
+#include <spck/utils/noncopyable.hpp>
 
 namespace spck {
 
-class shader {
+class shader : noncopyable {
 public:
     enum class data_type {
        FLOAT,
@@ -12,8 +12,7 @@ public:
 
 public:
     shader() = default;
-    ~shader() = default;
-    DELETE_COPY_METHODS(shader)
+    virtual ~shader() = default;
 
     virtual void start() const = 0;
     virtual void stop() const = 0;

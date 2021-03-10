@@ -20,7 +20,7 @@ public:
         SPCK_LOG_DEBUG("OpenGL VBO created: {0}", id);
     }
 
-    ~opengl_vertex_buffer() {
+    ~opengl_vertex_buffer() override {
         glDeleteBuffers(1, &id);
     };
 

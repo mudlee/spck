@@ -41,13 +41,9 @@ public:
         glDeleteShader(fragment_id);
     }
 
-    ~opengl_shader() {
+    ~opengl_shader() override {
         glDeleteProgram(program_id);
     }
-
-    opengl_shader(const opengl_shader &) = delete;
-
-    opengl_shader &operator=(const opengl_shader &) = delete;
 
     void start() const override {
         glUseProgram(program_id);

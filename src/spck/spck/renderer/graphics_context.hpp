@@ -1,15 +1,14 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-#include <spck/utils.hpp>
+#include <spck/utils/noncopyable.hpp>
 
 namespace spck {
 
-class graphics_context {
+class graphics_context : noncopyable {
 public:
     graphics_context() = default;
-    ~graphics_context() = default;
-    DELETE_COPY_METHODS(graphics_context)
+    virtual ~graphics_context() = default;
 
     virtual void init() const = 0;
     virtual void window_created(GLFWwindow* handle) const = 0;

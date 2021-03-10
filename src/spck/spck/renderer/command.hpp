@@ -1,17 +1,16 @@
 #pragma once
 
-#include <spck/utils.hpp>
 #include <spck/renderer/vertex_array.hpp>
+#include <spck/utils/noncopyable.hpp>
 
 #include <queue>
 
 namespace spck {
 
-class command {
+class command : noncopyable {
 public:
     command() = default;
-    ~command() = default;
-    DELETE_COPY_METHODS(command)
+    virtual ~command() = default;
 
     virtual void render() = 0;
 };
@@ -19,25 +18,23 @@ public:
 class draw_indexed_command : public command {
 public:
     explicit draw_indexed_command(std::shared_ptr<vertex_array> vao): vao(std::move(vao)) {}
-    DELETE_COPY_METHODS(draw_indexed_command)
 
-    virtual void render() = 0;
+    void render() override = 0;
 
 protected:
-    std::shared_ptr<vertex_array> vao{};
+    std::shared_ptr<vertex_array> vao;
 };
 
-class standard_command_queue {
+class standard_command_queue : noncopyable {
 public:
-    standard_command_queue() = delete;
-    ~standard_command_queue() = delete;
-    DELETE_COPY_METHODS(standard_command_queue)
+    standard_command_queue() = default;
+    ~standard_command_queue() = default;
 
-    static void submit(const std::shared_ptr<command>& command) {
+    void submit(const std::shared_ptr<command>& command) {
         commands.push(command);
     };
 
-    static void flush() {
+    void flush() {
         while(!commands.empty()) {
             commands.front()->render();
             commands.pop();
@@ -45,7 +42,7 @@ public:
     }
 
 private:
-    static std::queue<std::shared_ptr<command>> commands;
+    std::queue<std::shared_ptr<command>> commands{};
 
 };
 

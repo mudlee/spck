@@ -1,20 +1,19 @@
 #pragma once
 
 #include <memory>
-#include <spck/utils.hpp>
 #include <spck/renderer/vertex_buffer_layout.hpp>
+#include <spck/utils/noncopyable.hpp>
 
 namespace spck {
 
-class vertex_buffer {
+class vertex_buffer : noncopyable {
 public:
     vertex_buffer(
         const float *vertices,
         uint32_t size,
         std::shared_ptr<vertex_buffer_layout> layout
     ): layout(std::move(layout)) {}
-    ~vertex_buffer() = default;
-    DELETE_COPY_METHODS(vertex_buffer)
+    virtual ~vertex_buffer() = default;
 
     virtual void bind() const = 0;
     virtual void unbind() const = 0;

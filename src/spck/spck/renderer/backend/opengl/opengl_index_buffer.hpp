@@ -15,7 +15,7 @@ public:
         SPCK_LOG_DEBUG("OpenGL EBO created: {0}", id);
     }
 
-    ~opengl_index_buffer() {
+    ~opengl_index_buffer() override {
         glDeleteBuffers(1, &id);
     };
 

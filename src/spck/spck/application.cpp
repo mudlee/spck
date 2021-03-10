@@ -10,36 +10,21 @@ application::application() {
     context = std::make_shared<renderer::context>();
     win = std::make_unique<window>(context);
     win->set_event_callback([this](auto &&PH1) { on_event(std::forward<decltype(PH1)>(PH1)); });
+    command_queue = std::make_unique<standard_command_queue>();
 }
 
 void application::run() {
     SPCK_LOG_DEBUG("Running application");
-    // TODO: move this to sandbox, when the architecture is ready
-    const char* vertex_source = "#version 330 core\n"
-                                     "layout (location = 0) in vec3 aPos;\n"
-                                     "void main()\n"
-                                     "{\n"
-                                     "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                     "}\0";
-    const char* fragment_source = "#version 330 core\n"
-                                  "out vec4 FragColor;\n"
-                                  "\n"
-                                  "void main()\n"
-                                  "{\n"
-                                  "    FragColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);\n"
-                                  "}\0";
-
-    auto shader = renderer::shader(vertex_source, fragment_source);
 
     while (running) {
-        update();
+        on_begin_frame();
         context->clear(1.0f, 1.0f, 1.0f, 1.0f);
-        shader.start();
 
-        renderer::command_queue::flush();
+        on_update();
+        command_queue->flush();
 
+        on_end_frame();
         win->frame_end();
-        shader.stop();
     }
 }
 
