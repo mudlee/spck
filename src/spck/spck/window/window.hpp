@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 
 #include <spck/api.hpp>
 #include <spck/messaging/event.hpp>

@@ -12,6 +12,9 @@ public:
         case shader::data_type::FLOAT:
             return GL_FLOAT;
         }
+
+        SPCK_LOG_ERROR("Unknown data_type: {}", data_type);
+        exit(EXIT_FAILURE);
     }
 };
 
