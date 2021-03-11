@@ -26,7 +26,12 @@ $ git clone git@github.com:mudlee/spck.git
 
 #### Develop with CLion
 
-To use CLion, first run the install script, then you can open CLion.
+To use CLion, after starting it up run the conan to install dependencies:
+```bash
+$ mkdir -p cmake-build-debug && cd cmake-build-debug && conan install .. --build=fmt --build=spdlog --build=glad --build=glfw
+```
+
+Then go in CLion go to `Tools -> CMake -> Reload CMake Project` and you're good to go.
 
 #### Develop on M1 ARM Mac
 
@@ -35,34 +40,23 @@ Replace `arm64` to `armv8` in `~/.conan/profiles/default`
 ### Install
 
 ```bash
-# On Linux / OSX
-$ ./spck.sh -install
-```
-
-### Clean
-
-```bash
-# On Linux / OSX
-$ ./spck.sh -clean
+$ mkdir -p build && cd build && conan install .. --build=fmt --build=spdlog --build=glad --build=glfw
 ```
 
 ### Build
 
 ```bash
-# On Linux / OSX
-$ ./spck.sh -build
+$ cd build && cmake .. -G Ninja && ninja
 ```
 
 ### Run
 
 ```bash
-# On Linux / OSX
-$ ./spck.sh -run
+$ ./build/bin/sandbox
 ```
 
 ### QA
 
 ```bash
-# Run tests
-$ ./spck.sh -test
+$ cd build && ctest
 ```
