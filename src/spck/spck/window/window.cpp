@@ -4,7 +4,7 @@
 #include <spck/messaging/key_event.hpp>
 
 namespace spck {
-window::window(const std::shared_ptr<graphics_context>& context) : handle(nullptr), context(context) {
+window::window(const graphics_context& context) : handle(nullptr), context(context) {
     SPCK_LOG_DEBUG("Creating m_Window...");
 
     if (!glfwInit()) {
@@ -13,22 +13,22 @@ window::window(const std::shared_ptr<graphics_context>& context) : handle(nullpt
 
     glfwSetErrorCallback([](int error, const char *description) {
         SPCK_LOG_ERROR("GLFW ERROR. Code: {}, message: {}", error, description);
-        exit(EXIT_FAILURE);
+        throw std::exception();
     });
 
     glfwDefaultWindowHints();
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-    context->init();
+    context.init();
 
     handle = glfwCreateWindow(800, 600, "SPCK", nullptr, nullptr);
     if (handle == nullptr) {
         SPCK_LOG_ERROR("Failed to Create GLFW m_Window");
         glfwTerminate();
-        exit(EXIT_FAILURE);
+        throw std::exception();
     }
 
-    context->window_created(handle);
+    context.window_created(handle);
     SPCK_LOG_DEBUG("Window created");
 
     glfwSetWindowUserPointer(handle, &data);
@@ -62,7 +62,7 @@ window::~window() {
 void window::frame_end() {
     glfwPollEvents();
     // TODO: calculate frame time
-    context->swap_buffers(1.0f, handle);
+    context.swap_buffers(1.0f, handle);
 }
 
 } // namespace spck

@@ -1,17 +1,16 @@
 #pragma once
 
+#include <spck/log.hpp>
+//#include <spck/renderer/backend/opengl/assert.hpp>
 #include <spck/renderer/backend/opengl/vendor.hpp>
 #include <spck/renderer/shader.hpp>
-#include <spck/log.hpp>
-
 
 namespace spck {
 
 class opengl_shader: public shader {
 public:
-    opengl_shader(const char* vertex_shader, const char* fragment_shader) {
-        SPCK_LOG_DEBUG("Creating shader program...");
-        program_id = glCreateProgram();
+    opengl_shader(const char* vertex_shader, const char* fragment_shader)
+        : program_id(glCreateProgram()){
         SPCK_LOG_DEBUG("Shader program created [{0}]", program_id);
 
         SPCK_LOG_DEBUG("Creating vertex shader...");
@@ -33,7 +32,7 @@ public:
         if(!program_linked) {
             glGetProgramInfoLog(program_id, 1024, nullptr, program_info);
             SPCK_LOG_ERROR("Could not link shader program. Error: {0}", program_info);
-            exit(EXIT_FAILURE);
+            throw std::exception();
         }
 
         SPCK_LOG_DEBUG("Shader program [{0}] linked, detaching shaders...", program_id);
@@ -60,12 +59,12 @@ private:
         glCompileShader(id);
 
         int success;
-        char info[1024];
         glGetShaderiv(id, GL_COMPILE_STATUS, &success);
         if(!success) {
+            char info[1024];
             glGetShaderInfoLog(id, 1024, nullptr, info);
             SPCK_LOG_ERROR("Could not compile shader, error: {0}", info);
-            exit(EXIT_FAILURE);
+            throw std::exception();
         }
 
         SPCK_LOG_DEBUG("Shader created: [{0}]", id);

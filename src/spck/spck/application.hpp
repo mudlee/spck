@@ -6,6 +6,7 @@
 #include <spck/messaging/event.hpp>
 #include <spck/messaging/key_event.hpp>
 #include <spck/renderer/renderer.hpp>
+#include <spck/renderer/command/standard_command_queue.hpp>
 #include <spck/utils/noncopyable.hpp>
 #include <spck/window/window.hpp>
 
@@ -22,7 +23,7 @@ public:
     virtual void on_end_frame() = 0;
 
 protected:
-    std::unique_ptr<standard_command_queue> command_queue;
+    standard_command_queue command_queue;
 
 private:
     void on_event(event &event);
@@ -32,8 +33,8 @@ private:
 
 private:
     bool running = true;
-    std::unique_ptr<window> win{};
-    std::shared_ptr<renderer::context> context{};
+    renderer::context context;
+    window win;
 };
 
 }

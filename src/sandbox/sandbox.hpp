@@ -8,17 +8,17 @@ public:
         SPCK_LOG_DEBUG("Starting up sandbox");
 
         const float vertices[] = {
-            -0.5f,  0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.5f,  0.5f, 0.0f,
+            -0.5f,  0.5f, 0.0f, // vertex 1
+            -0.5f, -0.5f, 0.0f, // vertex 2
+            0.5f, -0.5f, 0.0f, // vertex 3
+            0.5f,  0.5f, 0.0f, // vertex 4
         };
 
         const int indices[] = {
             0, 1, 3, 3, 1, 2,
         };
 
-        const char* vertex_source = "#version 330 core\n"
+        const char* vertex_source = "#version 410 core\n"
                                     "layout (location = 0) in vec3 aPos;\n"
                                     "void main()\n"
                                     "{\n"
@@ -61,7 +61,7 @@ public:
     }
 
     void on_update() override {
-        command_queue->submit(std::make_shared<spck::renderer::draw_indexed_command>(vao));
+        command_queue.submit(std::make_shared<spck::renderer::draw_indexed_command>(vao));
     }
 
     void on_end_frame() override {

@@ -14,7 +14,7 @@ public:
         }
 
         SPCK_LOG_ERROR("Unknown data_type: {}", data_type);
-        exit(EXIT_FAILURE);
+        throw std::exception();
     }
 };
 

@@ -24,7 +24,7 @@ public:
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
             SPCK_LOG_ERROR("Failed to initialize GLAD");
-            exit(EXIT_FAILURE);
+            throw std::exception();
         }
     }
 

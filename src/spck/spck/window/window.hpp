@@ -14,7 +14,7 @@ using event_callback_fn = std::function<void(event &)>;
 
 class SPCK_API window : noncopyable {
 public:
-    explicit window(const std::shared_ptr<graphics_context>& context);
+    explicit window(const graphics_context& context);
     virtual ~window();
 
     void set_event_callback(const event_callback_fn &callback) { data.event_callback = callback; }
@@ -27,7 +27,7 @@ private:
 
     GLFWwindow* handle;
     window_data data;
-    std::shared_ptr<graphics_context> context;
+    const graphics_context& context;
 };
 
 }

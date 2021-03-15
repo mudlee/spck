@@ -31,15 +31,15 @@ public:
         bind();
         buffer.bind();
 
-        for(int i=0;i<buffer.layout->attributes.size();i++){
+        for(int i=0;i<buffer.layout->size();i++){
             glEnableVertexAttribArray(i);
             glVertexAttribPointer(
                 i,
-                buffer.layout->attributes.at(i).data_size,
-                type_converter::shader_data_type_to_gl_enum(buffer.layout->attributes.at(i).data_type),
-                buffer.layout->attributes.at(i).normalized,
-                buffer.layout->attributes.at(i).stride,
-                buffer.layout->attributes.at(i).offset
+                buffer.layout->at(i).data_size,
+                type_converter::shader_data_type_to_gl_enum(buffer.layout->at(i).data_type),
+                buffer.layout->at(i).normalized,
+                buffer.layout->at(i).stride,
+                buffer.layout->at(i).offset
             );
         }
 
@@ -49,12 +49,12 @@ public:
     }
 
     void set_ebo(const index_buffer &buffer) override {
-        ebo_size = buffer.size;
+        ebo_size = buffer.get_size();
         bind();
         buffer.bind();
         unbind();
         buffer.unbind();
-        SPCK_LOG_DEBUG("OpenGL EBO [{0}] added to VAO [{1}]", buffer.id, id);
+        SPCK_LOG_DEBUG("OpenGL EBO [{0}] added to VAO [{1}]", buffer.get_id(), id);
     }
 };
 

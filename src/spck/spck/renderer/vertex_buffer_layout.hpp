@@ -1,6 +1,5 @@
 #pragma once
 
-#include <utility>
 #include <vector>
 #include <spck/renderer/shader.hpp>
 
@@ -14,10 +13,6 @@ struct vertex_layout_attribute {
     const void* offset;
 };
 
-struct vertex_buffer_layout {
-    std::vector<vertex_layout_attribute> attributes;
-
-    explicit vertex_buffer_layout(std::vector<vertex_layout_attribute> attributes) : attributes(std::move(attributes)) {}
-};
+using vertex_buffer_layout = std::vector<vertex_layout_attribute>;
 
 }

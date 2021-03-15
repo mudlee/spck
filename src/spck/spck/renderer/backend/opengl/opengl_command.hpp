@@ -2,7 +2,7 @@
 
 #include <utility>
 #include <spck/renderer/backend/opengl/vendor.hpp>
-#include <spck/renderer/command.hpp>
+#include <spck/renderer/command/draw_indexed_command.hpp>
 
 namespace spck {
 

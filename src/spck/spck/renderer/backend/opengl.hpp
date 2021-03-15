@@ -1,6 +1,6 @@
 #pragma once
 
-#include <spck/renderer/command.hpp>
+#include <spck/renderer/command/command.hpp>
 #include <spck/renderer/backend/opengl/opengl_command.hpp>
 #include <spck/renderer/backend/opengl/opengl_context.hpp>
 #include <spck/renderer/backend/opengl/opengl_index_buffer.hpp>

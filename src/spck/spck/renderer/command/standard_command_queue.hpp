@@ -1,29 +1,11 @@
 #pragma once
 
-#include <spck/renderer/vertex_array.hpp>
-#include <spck/utils/noncopyable.hpp>
-
 #include <queue>
 
+#include <spck/renderer/command/command.hpp>
+#include <spck/utils/noncopyable.hpp>
+
 namespace spck {
-
-class command : noncopyable {
-public:
-    command() = default;
-    virtual ~command() = default;
-
-    virtual void render() = 0;
-};
-
-class draw_indexed_command : public command {
-public:
-    explicit draw_indexed_command(std::shared_ptr<vertex_array> vao): vao(std::move(vao)) {}
-
-    void render() override = 0;
-
-protected:
-    std::shared_ptr<vertex_array> vao;
-};
 
 class standard_command_queue : noncopyable {
 public:
