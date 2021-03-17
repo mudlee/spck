@@ -6,6 +6,7 @@
 
 namespace spck {
 
+// TODO: check if commands need a vao
 class opengl_draw_indexed_command : public draw_indexed_command {
 public:
     explicit opengl_draw_indexed_command(std::shared_ptr<vertex_array> vao) : draw_indexed_command(std::move(vao)) {

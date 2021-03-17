@@ -1,21 +1,20 @@
 #pragma once
 
-#include <exception>
 #include <string>
-#include <utility>
 
 namespace spck {
 
-class opengl_exception: public std::exception
+class opengl_exception: public std::runtime_error
 {
 public:
-    explicit opengl_exception(std::string& message): message(std::move(message)){}
+    explicit opengl_exception(const std::string& message) : runtime_error(message) {}
+    [[nodiscard]] const char* what() const _NOEXCEPT override { return message.c_str(); }
 
 private:
     std::string message;
 };
 
-int lofasz(int result) {
+inline int assertGl(int result) {
     if(result == 0) {
         std::string message = "OpenGL command failed with a result of ";
         message += std::to_string(result);

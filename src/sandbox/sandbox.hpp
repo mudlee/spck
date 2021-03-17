@@ -46,12 +46,11 @@ public:
             std::vector<spck::vertex_layout_attribute> {attrib}
         );
 
-        vao = std::make_shared<spck::renderer::vertex_array>();
-        spck::renderer::vertex_buffer vbo(vertices, sizeof(vertices), layout);
-        spck::renderer::index_buffer ebo(indices, sizeof(indices));
+        spck::renderer::vertex_buffer vbo(std::span(vertices), sizeof(vertices), layout);
+        spck::renderer::index_buffer ebo(std::span(indices), sizeof(indices));
 
-        vao->add_vbo(vbo);
-        vao->set_ebo(ebo);
+        vao.add_vbo(vbo);
+        vao.set_ebo(ebo);
     }
 
     ~sandbox() override = default;
@@ -69,6 +68,6 @@ public:
     }
 
 private:
-    std::shared_ptr<spck::renderer::vertex_array> vao;
+    spck::renderer::vertex_array vao;
     std::unique_ptr<spck::renderer::shader> shader;
 };

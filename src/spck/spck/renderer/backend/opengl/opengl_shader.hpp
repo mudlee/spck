@@ -1,7 +1,7 @@
 #pragma once
 
 #include <spck/log.hpp>
-//#include <spck/renderer/backend/opengl/assert.hpp>
+#include <spck/renderer/backend/opengl/assert.hpp>
 #include <spck/renderer/backend/opengl/vendor.hpp>
 #include <spck/renderer/shader.hpp>
 
@@ -10,7 +10,7 @@ namespace spck {
 class opengl_shader: public shader {
 public:
     opengl_shader(const char* vertex_shader, const char* fragment_shader)
-        : program_id(glCreateProgram()){
+        : program_id(assertGl(glCreateProgram())){
         SPCK_LOG_DEBUG("Shader program created [{0}]", program_id);
 
         SPCK_LOG_DEBUG("Creating vertex shader...");
@@ -44,18 +44,20 @@ public:
         glDeleteProgram(program_id);
     }
 
-    void start() const override {
+    void start() override {
         glUseProgram(program_id);
     }
 
-    void stop() const override {
+    void stop() override {
         glUseProgram(0);
     }
 
 private:
-    static GLuint construct_shader(const char* shader, GLuint type) {
-        auto id = glCreateShader(type);
-        glShaderSource(id, 1, &shader, nullptr);
+    // TODO: use string_views the same way
+    static GLuint construct_shader(std::string_view shader, GLuint type) {
+        auto sh_ptr = shader.data();
+        auto id = assertGl(glCreateShader(type));
+        glShaderSource(id, 1, &sh_ptr, nullptr);
         glCompileShader(id);
 
         int success;

@@ -2,6 +2,7 @@
 
 #include <spck/log.hpp>
 #include <spck/renderer/vertex_array.hpp>
+#include <spck/renderer/backend/opengl/assert.hpp>
 #include <spck/renderer/backend/opengl/type_converter.hpp>
 #include <spck/renderer/backend/opengl/vendor.hpp>
 
@@ -16,18 +17,18 @@ public:
 
     ~opengl_vertex_array() override {
         glDeleteVertexArrays(1, &id);
-    };
+    }
 
-    void bind() const override {
+    void bind() override {
         glBindVertexArray(id);
         glEnableVertexAttribArray(0);
     }
 
-    void unbind() const override {
+    void unbind() override {
         glBindVertexArray(0);
     }
 
-    void add_vbo(const vertex_buffer &buffer) const override {
+    void add_vbo(vertex_buffer &buffer) override {
         bind();
         buffer.bind();
 
@@ -48,7 +49,7 @@ public:
         SPCK_LOG_DEBUG("OpenGL VBO [{0}] added to VAO [{1}]", buffer.id, id);
     }
 
-    void set_ebo(const index_buffer &buffer) override {
+    void set_ebo(index_buffer &buffer) override {
         ebo_size = buffer.get_size();
         bind();
         buffer.bind();

@@ -14,8 +14,8 @@ public:
     shader() = default;
     virtual ~shader() = default;
 
-    virtual void start() const = 0;
-    virtual void stop() const = 0;
+    virtual void start() = 0;
+    virtual void stop() = 0;
 };
 
 }

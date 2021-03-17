@@ -11,10 +11,10 @@ public:
     vertex_array() = default;
     virtual ~vertex_array() = default;
 
-    virtual void bind() const = 0;
-    virtual void unbind() const = 0;
-    virtual void add_vbo(const vertex_buffer& buffer) const = 0;
-    virtual void set_ebo(const index_buffer& buffer) = 0;
+    virtual void bind() = 0;
+    virtual void unbind() = 0;
+    virtual void add_vbo(vertex_buffer& buffer) = 0;
+    virtual void set_ebo(index_buffer& buffer) = 0;
 
      [[nodiscard]] inline uint32_t get_ebo_size() const { return ebo_size; };
 
