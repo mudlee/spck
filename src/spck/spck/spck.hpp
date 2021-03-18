@@ -1,4 +1,5 @@
 #pragma once
 
-#include "application.hpp"
-#include "log.hpp"
+#include <spck/application.hpp>
+#include <spck/log.hpp>
+#include <spck/renderer/renderer.hpp>

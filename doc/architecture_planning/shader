@@ -1,0 +1,49 @@
+// shader varies because it defines how would you like to render
+// shader goes alongside with its parameters and glsl files
+AbsctractShader {
+    vars:
+        program_id
+
+    bind(){
+        gl_bind
+    }
+
+    unbind(){
+        gl_unbind()
+    }
+
+    create_uniform(string uniform_name) {
+        gl_create_uniform
+    }
+
+    construct/attach_shader(){
+        gl_create_shader
+        ... verify it, compile it, etc
+    }
+
+    link_program(){
+        gl_link
+    }
+
+    set_uniform(string uniform_name, int|float|string|enum|etc value){
+        gl_set_uniform
+    }
+}
+
+DefaultShader {
+    init(){
+        create_shader(vertex)
+        create_shader(fragment)
+        attach_shader(vertex)
+        attach_shader(fragment)
+        link_program()
+        create_uniform(...)
+        create_uniform(...)
+        create_uniform(...)
+    }
+
+    bind(){
+        super.bind()
+        update_uniforms_if_needed // for eg camera's data, light's data, etc
+    }
+}

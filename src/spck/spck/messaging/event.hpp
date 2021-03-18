@@ -1,10 +1,13 @@
 #pragma once
 
+#include <string>
+
 #include <spck/api.hpp>
 
 #define BIND_EVENT_FN(fn) [this](auto &&...args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 namespace spck {
+
 enum class event_type {
     // Keyboard events
     key_pressed,
@@ -12,10 +15,10 @@ enum class event_type {
     window_closed,
 };
 
-#define EVENT_CLASS_TYPE(type)                                                                                                                                 \
-    static event_type get_static_type() { return event_type::type; }                                                                                           \
-    virtual event_type get_event_type() const override { return get_static_type(); }                                                                           \
-    virtual const char *get_name() const override { return #type; }
+#define EVENT_CLASS_TYPE(type) \
+    static event_type get_static_type() { return event_type::type; } \
+    virtual event_type get_event_type() const override { return get_static_type(); }\
+    virtual std::string_view get_name() const override { return #type; }
 
 class SPCK_API event {
 public:
@@ -23,7 +26,7 @@ public:
 
     [[nodiscard]] virtual event_type get_event_type() const = 0;
 
-    [[nodiscard]] virtual const char *get_name() const = 0;
+    [[nodiscard]] virtual std::string_view get_name() const = 0;
 
 public:
     bool handled = false;
@@ -44,4 +47,5 @@ public:
 private:
     event &ev;
 };
+
 } // namespace spck

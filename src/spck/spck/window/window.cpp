@@ -1,10 +1,10 @@
-#include "window.hpp"
+#include <spck/window/window.hpp>
 #include <spck/log.hpp>
 #include <spck/messaging/application_event.hpp>
 #include <spck/messaging/key_event.hpp>
 
 namespace spck {
-window::window() : handle(nullptr) {
+window::window(const graphics_context& context) : handle(nullptr), context(context) {
     SPCK_LOG_DEBUG("Creating m_Window...");
 
     if (!glfwInit()) {
@@ -13,48 +13,42 @@ window::window() : handle(nullptr) {
 
     glfwSetErrorCallback([](int error, const char *description) {
         SPCK_LOG_ERROR("GLFW ERROR. Code: {}, message: {}", error, description);
-        exit(EXIT_FAILURE);
+        throw std::exception();
     });
 
     glfwDefaultWindowHints();
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-    // OpenGL specific stuff. Will be moved to its place when we have a clear renderer structure
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-    // OpenGL specific stuff. Will be moved to its place when we have a clear renderer structure
+    context.init();
 
     handle = glfwCreateWindow(800, 600, "SPCK", nullptr, nullptr);
     if (handle == nullptr) {
         SPCK_LOG_ERROR("Failed to Create GLFW m_Window");
         glfwTerminate();
-        exit(EXIT_FAILURE);
+        throw std::exception();
     }
 
-    glfwMakeContextCurrent(handle);
+    context.window_created(handle);
     SPCK_LOG_DEBUG("Window created");
 
     glfwSetWindowUserPointer(handle, &data);
 
     glfwSetKeyCallback(handle, [](GLFWwindow *w, int key, int scancode, int action, int mods) {
-        window_data &data = *(window_data *)glfwGetWindowUserPointer(w);
+        auto &data_ref = *(window_data *)glfwGetWindowUserPointer(w);
 
         switch (action) {
         case GLFW_PRESS:
             key_pressed_event ev(key);
-            data.event_callback(ev);
+            data_ref.event_callback(ev);
             break;
             // TODO: handle release, repeat
         }
     });
 
     glfwSetWindowCloseCallback(handle, [](GLFWwindow *w) {
-        window_data &data = *(window_data *)glfwGetWindowUserPointer(w);
+        auto &data_ref = *(window_data *)glfwGetWindowUserPointer(w);
         window_closed_event ev;
-        data.event_callback(ev);
+        data_ref.event_callback(ev);
     });
 }
 
@@ -65,5 +59,10 @@ window::~window() {
     }
 }
 
-void window::frame_end() { glfwPollEvents(); }
+void window::frame_end() {
+    glfwPollEvents();
+    // TODO: calculate frame time
+    context.swap_buffers(1.0f, handle);
+}
+
 } // namespace spck

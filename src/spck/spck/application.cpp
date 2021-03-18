@@ -1,16 +1,30 @@
 #include <spck/application.hpp>
-#include <spck/messaging/application_event.hpp>
-#include <spck/messaging/event.hpp>
-#include <spck/messaging/key_event.hpp>
+#include <spck/renderer/renderer.hpp>
 #include <spck/window/window.hpp>
+#include <memory>
 
 namespace spck {
 
-void application::run() {
-    window win;
+application::application()
+    : context(),
+      win(context),
+      command_queue(){
+    SPCK_LOG_DEBUG("Creating application");
+    // TODO: use properties to setup global variables like render backend
     win.set_event_callback([this](auto &&PH1) { on_event(std::forward<decltype(PH1)>(PH1)); });
+}
+
+void application::run() {
+    SPCK_LOG_DEBUG("Running application");
 
     while (running) {
+        on_begin_frame();
+        context.clear(1.0f, 1.0f, 1.0f, 1.0f);
+
+        on_update();
+        command_queue.flush();
+
+        on_end_frame();
         win.frame_end();
     }
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "event.hpp"
+#include <spck/messaging/event.hpp>
 
 namespace spck {
 class key_event : public event {

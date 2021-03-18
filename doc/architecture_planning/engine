@@ -1,0 +1,24 @@
+Engine {
+    [scene] scenes
+
+    start() {
+        // game loop, which can improve ofc
+        last_loop_time = now
+        while(not exit) {
+            current_time = now
+            delta_time = current_time - loop_time
+
+            send_event(FRAME_START)
+            send_event(UPDATE)
+            send_event(LATE_UPDATE)
+            scenes.foreach(scene -> scene.process())
+            send_evnet(BUFFER_SWAP)
+            send_event(FRAME_END)
+        }
+    }
+
+    add_scene(scene){
+        scenes.add(scene)
+    }
+
+}

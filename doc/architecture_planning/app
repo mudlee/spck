@@ -1,0 +1,92 @@
+Game extends Engine implements AppEventListener {
+    vars:
+        raw_entity_id
+        model_entity_id
+        scene
+
+    main(){
+        settings = AppSettings(title, width, height, fullscreen, vsync, antialias)
+        // optional, we have to recognize the best suitable, for now it will be opengl only
+        settings.set_render_backend(RenderBackend.OPEN_GL)
+
+        engine.setup(settings)
+        engine.start();
+    }
+
+    onStart() {
+        scene = new Scene()
+        camera = Camera.perspective(position, rotation, fov, zNear, zFar)
+        ambient = AmbientLight(color, strength)
+        directional = DirectionalLight(color, strength, direction);
+
+        // note1: Materials that supports lights (usually postfixed with Lit in Unity) will only be effected
+        // note2: camera here is a render target, later we should be able to render onto a texture
+        scene.begin(camera, [light])
+
+        raw_entity_id = scene.add_entity(createRawEntity())
+        model_entity_id = scene.add_entity(createModelEntity())
+
+        scene.end();
+
+        engine.add_scene(scene)
+
+        // Events version1: there is a a listener method for input events
+        Input.on_mouse_button_pressed(() -> {
+            ...
+        })
+    }
+
+    // Events version2: for more general event handling, I saw this method as well:
+    onEvent(event) {
+        if(event is mouse_event) {
+            if(((mouse_event)event).kind = left_click) {
+                ...
+            }
+        }
+    }
+
+    onUpdate(){
+        engine.clear(Color(255,255,255,255))
+
+        // Events version3: Or Unity uses this kind of input handling
+        if(Input.key_down("KEY_SPACE")) {
+            scene.remove_entity(raw_entity_id);
+        }
+        if(Input.left_mouse_button_click()){
+            scene.get_entity(model_entity_id).get_component<MeshRenderer>().transform.position.x += 1
+        }
+        if(Input.key_down("ESCAPE")){
+            engine.remove_scene(scene.id)
+            engine.shut_down()
+        }
+    }
+
+    createModelEntity(){
+        model = Resource.load_model("path.obj")
+
+        model_entity = Entity()
+        // if model does not have a material defined, we provide the default one
+        model_entity.add_component(MeshRenderer(model.mesh, model.material))
+        return model_entity
+    }
+
+    createRawEntity(){
+        mesh = Mesh(vertices, indices, normals_opt, uv_coords_opt)
+
+        shader = Shader(specular_color, diffuse_color, ambient_color, diffuse_texture, shininess)
+
+        // if not provided, MeshRenderer always fallback to a default material with default settings (the typical gray)
+        material = Material(shader)
+
+        // - if not provided, Transform will always be a 0,0,0 for everything
+        // - for rotation we should use quaternions, which I'm not familar with
+        // - the values below are the default values. Position, rotation, scale are all optional
+        transform = Transform(Position(0,0,0), Rotation(0,0,0), Scale(1,1,1))
+
+        raw_entity = Entity()
+        // here, only the mesh is required for a MeshRenderer
+        raw_entity.add_component(MeshRenderer([MeshRenderSource(mesh, material)], transform))
+
+        return raw_entity
+    }
+}
