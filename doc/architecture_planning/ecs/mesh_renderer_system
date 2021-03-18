@@ -1,0 +1,34 @@
+MeshRendererSystem extends System<MeshRenderer> {
+    process([entities]) { // these are entities that have MeshRenderer component
+        // here we have to group entites by material and mesh, so in the end we have to have something like this:
+        Map<Material, Map<Mesh, MeshRenderSource>> groups
+
+        // then, we have to iterate through this map and
+        for(group in groups) {
+            upload_data_to_gpu(group) // where group is a MeshRenderSource
+        }
+
+        // then render
+        for(group in groups){
+            group.material.shader.bind()
+
+            for(batch in group){
+                gl_bind(batch.vao)
+                // note on render: we can render in a lot of ways, drawing triangles, arrays, instanced rendering, etc
+                // I would say we render only via the instanced way, even if we just render a simple triangle.
+                // later we can optimize, that if the batch contains nothing just a triangle, then we render it as a triangle
+                gl_render(....)
+                gl_unbind(batch.vao)
+            }
+
+            group.material.shader.unbind()
+        }
+    }
+
+    upload_data_to_gpu(){
+        // note here: we have to only upload an entity's data (vertices, indices, etc that stored in a Mesh and Material) to the GPU (vao, vbo) if
+        // we have not done it already
+
+        // we will have one VAO per batch (a MeshRenderSource, a.k.a a Mesh-Material pair)
+    }
+}

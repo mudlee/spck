@@ -1,0 +1,35 @@
+Scene {
+    vars:
+        ecs // we must not write it by our hand, but use a library that performs
+
+    begin(camera, etc){
+        // these parameters' data will be used during the render, IN the shader.
+        // usually these data (like camera's projection matrix) will be uploaded through a uniform (see the shader)
+        // so possible, here we want to call the shader's create_uniform method and
+        // in the 'process' method we have to call the shader's set_uniform method. The question: how?
+        // as we only have to do that for entities that has a component that has a Material.
+        // PLUS, entities and its materials/meshes will be grouped and batched during the render (see: mesh_renderer_system)
+    }
+
+    add_entity(entity){
+        ecs.add_entity(entity)
+    }
+
+    remove_entity(entity) {
+        ecs.remove_entity(entity)
+        // NOTE HERE:
+        // we have to remove entities' data from the GPU's memory as well if there any
+    }
+
+    process(){
+        // for example we group entities by MeshRenderer component, so we're gonna have a MeshRendererSystem
+        Map<Component, [Entity]> group = ecs.get_aggregated_entities()
+
+        for(group in entities_by_component){
+            system = ecs.find_system_by_component(group.key)
+            system.process(group.value) // where .value is a list of entities's components
+
+            // IMPORTANT NOTE: we will NOT modify the entity itself, but it's component(s) data in a system
+        }
+    }
+}

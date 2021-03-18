@@ -1,0 +1,11 @@
+MeshRenderer extends AbstractComponent {
+    vars:
+        [MeshRenderSource] sources
+        Transform transform
+}
+
+MeshRenderSource {
+    vars:
+        mesh
+        material
+}
